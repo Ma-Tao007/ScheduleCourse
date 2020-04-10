@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.system.mapper.CourseClassMapper">
+  <resultMap id="BaseResultMap" type="com.system.po.CourseClass">
+    <!--@mbg.generated-->
+    <!--@Table course_class-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="classname" jdbcType="VARCHAR" property="classname" />
+    <result column="courseids" jdbcType="VARCHAR" property="courseids" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, classname, courseids
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from course_class
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from course_class
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.system.po.CourseClass" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into course_class (classname, courseids)
+    values (#{classname,jdbcType=VARCHAR}, #{courseids,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.system.po.CourseClass" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into course_class
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="classname != null">
+        classname,
+      </if>
+      <if test="courseids != null">
+        courseids,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="courseids != null">
+        #{courseids,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.system.po.CourseClass">
+    <!--@mbg.generated-->
+    update course_class
+    <set>
+      <if test="classname != null">
+        classname = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="courseids != null">
+        courseids = #{courseids,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.system.po.CourseClass">
+    <!--@mbg.generated-->
+    update course_class
+    set classname = #{classname,jdbcType=VARCHAR},
+      courseids = #{courseids,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
