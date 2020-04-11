@@ -36,23 +36,27 @@ public class AdminController {
     @Resource(name = "userloginServiceImpl")
     private UserloginService userloginService;
 
+    @Resource
+    private SysuserService sysuserService;
+
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<学生操作>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
     //  学生信息显示
     @RequestMapping("/showStudent")
     public String showStudent(Model model, Integer page) throws Exception {
 
-        List<StudentCustom> list = null;
+        List<Sysuser> list = null;
         //页码对象
         PagingVO pagingVO = new PagingVO();
         //设置总页数
-        pagingVO.setTotalCount(studentService.getCountStudent());
+        pagingVO.setTotalCount(sysuserService.getCount());
         if (page == null || page == 0) {
             pagingVO.setToPageNo(1);
-            list = studentService.findByPaging(1);
+            //当前页码
+            list = sysuserService.findByPaging(1);
         } else {
             pagingVO.setToPageNo(page);
-            list = studentService.findByPaging(page);
+            list = sysuserService.findByPaging(page);
         }
 
         model.addAttribute("studentList", list);
@@ -66,18 +70,14 @@ public class AdminController {
     @RequestMapping(value = "/addStudent", method = {RequestMethod.GET})
     public String addStudentUI(Model model) throws Exception {
 
-        List<College> list = collegeService.finAll();
-
-        model.addAttribute("collegeList", list);
-
         return "admin/addStudent";
     }
 
      // 添加学生信息操作
     @RequestMapping(value = "/addStudent", method = {RequestMethod.POST})
-    public String addStudent(StudentCustom studentCustom, Model model) throws Exception {
+    public String addStudent(Sysuser sysuser, Model model) throws Exception {
 
-        Boolean result = studentService.save(studentCustom);
+        Boolean result = sysuserService.save(sysuser);
 
         if (!result) {
             model.addAttribute("message", "学号重复");
@@ -85,7 +85,7 @@ public class AdminController {
         }
         //添加成功后，也添加到登录表
         Userlogin userlogin = new Userlogin();
-        userlogin.setUsername(studentCustom.getUserid().toString());
+        userlogin.setUsername(sysuser.getUsername());
         userlogin.setPassword("123");
         userlogin.setRole(2);
         userloginService.save(userlogin);
@@ -101,13 +101,10 @@ public class AdminController {
             //加入没有带学生id就进来的话就返回学生显示页面
             return "redirect:/admin/showStudent";
         }
-        StudentCustom studentCustom = studentService.findById(id);
+        Sysuser studentCustom = sysuserService.selectByPrimaryKey(id);
         if (studentCustom == null) {
             throw new CustomException("未找到该名学生");
         }
-        List<College> list = collegeService.finAll();
-
-        model.addAttribute("collegeList", list);
         model.addAttribute("student", studentCustom);
 
 
@@ -116,9 +113,9 @@ public class AdminController {
 
     // 修改学生信息处理
     @RequestMapping(value = "/editStudent", method = {RequestMethod.POST})
-    public String editStudent(StudentCustom studentCustom) throws Exception {
+    public String editStudent(Sysuser sysuser) throws Exception {
 
-        studentService.updataById(studentCustom.getUserid(), studentCustom);
+        sysuserService.updateByPrimaryKey(sysuser);
 
         //重定向
         return "redirect:/admin/showStudent";
@@ -131,17 +128,18 @@ public class AdminController {
             //加入没有带学生id就进来的话就返回学生显示页面
             return "admin/showStudent";
         }
-        studentService.removeById(id);
-        userloginService.removeByName(id.toString());
+        Sysuser user = sysuserService.selectByPrimaryKey(id);
+        sysuserService.deleteByPrimaryKey(id);
+        userloginService.removeByName(user.getUsername());
 
         return "redirect:/admin/showStudent";
     }
 
     // 搜索学生
     @RequestMapping(value = "selectStudent", method = {RequestMethod.POST})
-    private String selectStudent(String findByName, Model model) throws Exception {
+    private String selectStudent(String findByName, Model model) {
 
-        List<StudentCustom> list = studentService.findByName(findByName);
+        List<Sysuser> list = sysuserService.findByName(findByName);
 
         model.addAttribute("studentList", list);
         return "admin/showStudent";

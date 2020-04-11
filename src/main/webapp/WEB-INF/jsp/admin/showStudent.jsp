@@ -28,7 +28,7 @@
 				<div class="panel panel-default">
 				    <div class="panel-heading">
 						<div class="row">
-					    	<h1 class="col-md-5">学生名单管理</h1>
+					    	<h1 class="col-md-5">学生管理</h1>
 							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="${pageContext.request.contextPath}/admin/selectStudent" id="form1" method="post">
 								<div class="input-group">
 									<input type="text" class="form-control" placeholder="请输入姓名" name="findByName">
@@ -48,24 +48,22 @@
 					                <th>学号</th>
 				  					<th>姓名</th>
 				  					<th>性别</th>
-				  					<th>出生年份</th>
-				  					<th>入学时间</th>
-				  					<th>学院</th>
+				  					<th>手机号</th>
+				  					<th>所在班级</th>
 				  					<th>操作</th>
 					            </tr>
 					        </thead>
 					        <tbody>
 							<c:forEach  items="${studentList}" var="item">
 								<tr>
-									<td>${item.userid}</td>
 									<td>${item.username}</td>
+									<td>${item.persname}</td>
 									<td>${item.sex}</td>
-									<td><fmt:formatDate value="${item.birthyear}" dateStyle="medium" /></td>
-									<td><fmt:formatDate value="${item.grade}" dateStyle="medium" /></td>
-									<td>${item.collegeName}</td>
+									<td>${item.phone}</td>
+									<td>${item.classname}</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='${pageContext.request.contextPath}/admin/editStudent?id=${item.userid}'">修改</button>
-										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='${pageContext.request.contextPath}/admin/removeStudent?id=${item.userid}'">删除</button>
+										<button class="btn btn-default btn-xs btn-info" onClick="location.href='${pageContext.request.contextPath}/admin/editStudent?id=${item.id}'">修改</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='${pageContext.request.contextPath}/admin/removeStudent?id=${item.id}'">删除</button>
 										<!--弹出框-->
 									</td>
 								</tr>

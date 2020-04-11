@@ -6,7 +6,10 @@
     MyBatis 主配置文件
 -->
 <configuration>
-
+    <settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
 
 
     <!-- 为JAVA PO类起类别名 -->

@@ -104,4 +104,22 @@
       classname = #{classname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from sysuser
+  </select>
+
+
+  <select id="findByPaging" parameterType="PagingVO" resultType="Sysuser">
+    select *
+    from sysuser
+    limit #{toPageNo}, #{pageSize}
+  </select>
+
+  <select id="selectByUsername" resultType="Sysuser">
+    select * from sysuser where username = #{username,jdbcType=VARCHAR}
+  </select>
+  <select id="selectLikeByUsername" resultType="Sysuser">
+    select * from sysuser where persname like #{findname}
+  </select>
 </mapper>

@@ -21,7 +21,7 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
 
         ModelAndView modelAndView = new ModelAndView();
-
+        e.printStackTrace();
         CustomException customException;
         if (e instanceof CustomException) {
             customException = (CustomException)e;

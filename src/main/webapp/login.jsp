@@ -5,7 +5,7 @@
 
 <head>
 <meta charset="utf-8">
-    <title>校园招聘平台</title>
+    <title>高效排课系统</title>
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
 <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
@@ -25,7 +25,7 @@
 	                <input class='input' type="password" id="password" name='password' />
 	            </label>
 	           <!-- 	<div style='width:50%;height:20px;line-height:74px;text-align:center;margin:auto'>
-	             <input type="radio" name='role' value='2' checked/>用户  
+	             <input type="radio" name='role' value='2' checked/>用户
 	             <input type="radio" name='role' value='0'/>管理员
 	            </div> -->
 	            <button type="submit" class="submit" >登 录</button>
@@ -109,7 +109,7 @@ document.querySelector('.img__btn').addEventListener('click', function() {
            alert("请输入用户名和密码")
             return
         }
-      /*  var role = $("input[name='role']:checked").val() 
+      /*  var role = $("input[name='role']:checked").val()
        location.href=$("#contextPath").val()+'/login?username='+$("#username").val()+"&password="+$("#password").val() */
        /*  $.ajax({
             url:$("#contextPath").val()+"/login",
@@ -123,13 +123,13 @@ document.querySelector('.img__btn').addEventListener('click', function() {
 
                 }else{
                     layer.msg(res.msg,{icon:2})
-                } 
+                }
                 console.log(res)
             },
             error:function (err) {
                 console.log(err)
             }
-        })  
+        })
         */
     }
 </SCRIPT>
@@ -201,7 +201,7 @@ document.querySelector('.img__btn').addEventListener('click', function() {
 				</form>
 			</div>
 			<div class="col-md-4"></div>
-		</div>		
+		</div>
 	</div>
 </body>
 </html> --%>

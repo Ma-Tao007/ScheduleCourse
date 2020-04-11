@@ -1,6 +1,12 @@
 <component name="ArtifactManager">
   <artifact type="war" name="SchoolSystemManager:war">
     <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>SchoolSystemManager</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="archive" name="SchoolSystemManager.war">
       <element id="artifact" artifact-name="SchoolSystemManager:war exploded" />
     </root>
