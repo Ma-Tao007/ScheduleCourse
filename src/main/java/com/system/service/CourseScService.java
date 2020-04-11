@@ -1,6 +1,10 @@
 package com.system.service;
 
 import com.system.po.CourseSc;
+import com.system.po.Sysuser;
+
+import java.util.List;
+
 public interface CourseScService{
 
 
@@ -16,4 +20,11 @@ public interface CourseScService{
 
     int updateByPrimaryKey(CourseSc record);
 
+    int getCount();
+
+    List<CourseSc> findByPaging(int i);
+
+    Boolean save(CourseSc courseSc);
+
+    List<CourseSc> findByName(String findByName);
 }

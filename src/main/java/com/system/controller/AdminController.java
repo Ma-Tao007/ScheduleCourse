@@ -39,6 +39,9 @@ public class AdminController {
     @Resource
     private SysuserService sysuserService;
 
+    @Resource
+    private CourseScService courseScService;
+
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<学生操作>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
     //  学生信息显示
@@ -261,17 +264,17 @@ public class AdminController {
     @RequestMapping("/showCourse")
     public String showCourse(Model model, Integer page) throws Exception {
 
-        List<CourseCustom> list = null;
+        List<CourseSc> list = null;
         //页码对象
         PagingVO pagingVO = new PagingVO();
         //设置总页数
         pagingVO.setTotalCount(courseService.getCountCouse());
         if (page == null || page == 0) {
             pagingVO.setToPageNo(1);
-            list = courseService.findByPaging(1);
+            list = courseScService.findByPaging(1);
         } else {
             pagingVO.setToPageNo(page);
-            list = courseService.findByPaging(page);
+            list = courseScService.findByPaging(page);
         }
 
         model.addAttribute("courseList", list);
@@ -285,20 +288,15 @@ public class AdminController {
     @RequestMapping(value = "/addCourse", method = {RequestMethod.GET})
     public String addCourseUI(Model model) throws Exception {
 
-        List<TeacherCustom> list = teacherService.findAll();
-        List<College> collegeList = collegeService.finAll();
-
-        model.addAttribute("collegeList", collegeList);
-        model.addAttribute("teacherList", list);
 
         return "admin/addCourse";
     }
 
     // 添加课程信息处理
     @RequestMapping(value = "/addCourse", method = {RequestMethod.POST})
-    public String addCourse(CourseCustom courseCustom, Model model) throws Exception {
+    public String addCourse(CourseSc courseSc, Model model) throws Exception {
 
-        Boolean result = courseService.save(courseCustom);
+        Boolean result = courseScService.save(courseSc);
 
         if (!result) {
             model.addAttribute("message", "课程号重复");
@@ -310,32 +308,25 @@ public class AdminController {
         return "redirect:/admin/showCourse";
     }
 
-    // 修改教师信息页面显示
+    // 修改课程信息页面显示
     @RequestMapping(value = "/editCourse", method = {RequestMethod.GET})
     public String editCourseUI(Integer id, Model model) throws Exception {
         if (id == null) {
             return "redirect:/admin/showCourse";
         }
-        CourseCustom courseCustom = courseService.findById(id);
-        if (courseCustom == null) {
+        CourseSc courseSc = courseScService.selectByPrimaryKey(id);
+        if (courseSc == null) {
             throw new CustomException("未找到该课程");
         }
-        List<TeacherCustom> list = teacherService.findAll();
-        List<College> collegeList = collegeService.finAll();
-
-        model.addAttribute("teacherList", list);
-        model.addAttribute("collegeList", collegeList);
-        model.addAttribute("course", courseCustom);
-
-
+        model.addAttribute("course", courseSc);
         return "admin/editCourse";
     }
 
-    // 修改教师信息页面处理
+    // 修改课程信息页面处理
     @RequestMapping(value = "/editCourse", method = {RequestMethod.POST})
-    public String editCourse(CourseCustom courseCustom) throws Exception {
+    public String editCourse(CourseSc courseSc) throws Exception {
 
-        courseService.upadteById(courseCustom.getCourseid(), courseCustom);
+        courseScService.updateByPrimaryKey(courseSc);
 
         //重定向
         return "redirect:/admin/showCourse";
@@ -348,7 +339,7 @@ public class AdminController {
             //加入没有带教师id就进来的话就返回教师显示页面
             return "admin/showCourse";
         }
-        courseService.removeById(id);
+        courseScService.deleteByPrimaryKey(id);
 
         return "redirect:/admin/showCourse";
     }
@@ -357,7 +348,7 @@ public class AdminController {
     @RequestMapping(value = "selectCourse", method = {RequestMethod.POST})
     private String selectCourse(String findByName, Model model) throws Exception {
 
-        List<CourseCustom> list = courseService.findByName(findByName);
+        List<CourseSc> list = courseScService.findByName(findByName);
 
         model.addAttribute("courseList", list);
         return "admin/showCourse";

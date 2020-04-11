@@ -19,7 +19,10 @@ public class SysuserServiceImpl implements SysuserService {
     @Resource
     private SysuserMapper sysuserMapper;
 
-
+    @Override
+    public int getCount() {
+        return sysuserMapper.getCount();
+    }
     @Override
     public List<Sysuser> findByPaging(int toPageNo) {
         PagingVO pagingVO = new PagingVO();
@@ -78,10 +81,7 @@ public class SysuserServiceImpl implements SysuserService {
         return sysuserMapper.updateByPrimaryKey(record);
     }
 
-    @Override
-    public int getCount() {
-        return sysuserMapper.getCount();
-    }
+
 
 
 }

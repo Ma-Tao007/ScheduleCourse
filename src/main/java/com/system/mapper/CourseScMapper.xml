@@ -93,4 +93,24 @@
       credit = #{credit,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from sysuser
+  </select>
+
+
+  <select id="findByPaging" parameterType="PagingVO" resultType="CourseSc">
+    select *
+    from course_sc
+    limit #{toPageNo}, #{pageSize}
+  </select>
+
+  <select id="selectByName" resultType="CourseSc">
+    select * from course_sc where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="selectLikeByName" resultType="CourseSc">
+    select * from course_sc where name like #{name}
+  </select>
+
+
 </mapper>

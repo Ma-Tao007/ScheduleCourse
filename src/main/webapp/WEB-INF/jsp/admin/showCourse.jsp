@@ -45,13 +45,9 @@
 				    <table class="table table-bordered">
 					        <thead>
 					            <tr>
-									<th>课程号</th>
 									<th>课程名称</th>
-									<th>授课老师编号</th>
-									<th>上课时间</th>
-									<th>上课地点</th>
-									<th>周数</th>
-									<th>课程类型</th>
+									<th>班级</th>
+									<th>课时</th>
 									<th>学分</th>
 									<th>操作</th>
 					            </tr>
@@ -59,17 +55,13 @@
 					        <tbody>
 							<c:forEach  items="${courseList}" var="item">
 								<tr>
-									<td>${item.courseid}</td>
-									<td>${item.coursename}</td>
-									<td>${item.teacherid}</td>
+									<td>${item.name}</td>
+									<td>${item.classname}</td>
 									<td>${item.coursetime}</td>
-									<td>${item.classroom}</td>
-									<td>${item.courseweek}</td>
-									<td>${item.coursetype}</td>
-									<td>${item.score}</td>
+									<td>${item.credit}</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='${pageContext.request.contextPath}/admin/editCourse?id=${item.courseid}'">修改</button>
-										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='${pageContext.request.contextPath}/admin/removeCourse?id=${item.courseid}'">删除</button>
+										<button class="btn btn-default btn-xs btn-info" onClick="location.href='${pageContext.request.contextPath}/admin/editCourse?id=${item.id}'">修改</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='${pageContext.request.contextPath}/admin/removeCourse?id=${item.id}'">删除</button>
 										<!--弹出框-->
 									</td>
 								</tr>

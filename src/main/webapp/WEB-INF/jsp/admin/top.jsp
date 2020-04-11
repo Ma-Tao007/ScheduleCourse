@@ -25,14 +25,14 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" href="#">
-                                    <span class="glyphicon glyphicon-cog pull-right"></span>
-                                    修改个人信息
-                                </a>
-                            </li>
-                            <!-分割线--->
-                            <li role="presentation" class="divider"></li>
+                            <%--<li role="presentation">--%>
+                                <%--<a role="menuitem" tabindex="-1" href="#">--%>
+                                    <%--<span class="glyphicon glyphicon-cog pull-right"></span>--%>
+                                    <%--修改个人信息--%>
+                                <%--</a>--%>
+                            <%--</li>--%>
+                            <%--<!-分割线--->--%>
+                            <%--<li role="presentation" class="divider"></li>--%>
                             <li role="presentation">
                                 <a role="menuitem" tabindex="-1" href="${pageContext.request.contextPath}/logout">
                                     <span class="glyphicon glyphicon-off pull-right"></span>
