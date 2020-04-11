@@ -4,6 +4,7 @@ import com.system.po.CourseSc;
 import com.system.po.PagingVO;
 import com.system.po.Sysuser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface CourseScMapper {
 
     List<CourseSc> findByPaging(PagingVO pagingVO);
 
-    List<CourseSc> selectByName(String name);
+    List<CourseSc> selectByName(@Param("name") String name,@Param("classname")String classname);
 
     List<CourseSc> selectLikeByName(String name);
 }

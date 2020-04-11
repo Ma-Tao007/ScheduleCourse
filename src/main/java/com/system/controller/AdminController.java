@@ -299,7 +299,7 @@ public class AdminController {
         Boolean result = courseScService.save(courseSc);
 
         if (!result) {
-            model.addAttribute("message", "课程号重复");
+            model.addAttribute("message", "改班级的这个课程以及存在");
             return "error";
         }
 

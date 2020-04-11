@@ -41,7 +41,7 @@ public class CourseScServiceImpl implements CourseScService{
 
     @Override
     public Boolean save(CourseSc courseSc) {
-        List<CourseSc> stu = courseScMapper.selectByName(courseSc.getName());
+        List<CourseSc> stu = courseScMapper.selectByName(courseSc.getName(),courseSc.getClassname());
         if (stu.size()==0) {
             courseScMapper.insert(courseSc);
             return true;

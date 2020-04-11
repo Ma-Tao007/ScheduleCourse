@@ -106,7 +106,7 @@
   </select>
 
   <select id="selectByName" resultType="CourseSc">
-    select * from course_sc where name = #{name,jdbcType=VARCHAR}
+    select * from course_sc where name = #{name,jdbcType=VARCHAR} and classname = #{classname,jdbcType=VARCHAR}
   </select>
   <select id="selectLikeByName" resultType="CourseSc">
     select * from course_sc where name like #{name}
