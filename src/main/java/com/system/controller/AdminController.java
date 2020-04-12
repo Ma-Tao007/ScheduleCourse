@@ -1,10 +1,12 @@
 package com.system.controller;
 
 import com.system.exception.CustomException;
+import com.system.mapper.SysuserMapper;
 import com.system.po.*;
 import com.system.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,9 +26,6 @@ public class AdminController {
 
     @Resource(name = "studentServiceImpl")
     private StudentService studentService;
-
-    @Resource(name = "teacherServiceImpl")
-    private TeacherService teacherService;
 
     @Resource(name = "courseServiceImpl")
     private CourseService courseService;
@@ -42,6 +42,12 @@ public class AdminController {
     @Resource
     private CourseScService courseScService;
 
+    @Resource
+    private CourseClassService courseClassService;
+
+    @Autowired
+    private SysuserMapper sysuserMapper;
+
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<学生操作>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
     //  学生信息显示
@@ -56,7 +62,7 @@ public class AdminController {
         if (page == null || page == 0) {
             pagingVO.setToPageNo(1);
             //当前页码
-            list = sysuserService.findByPaging(1);
+                list = sysuserService.findByPaging(1);
         } else {
             pagingVO.setToPageNo(page);
             list = sysuserService.findByPaging(page);
@@ -150,21 +156,21 @@ public class AdminController {
 
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<教师操作>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
-    // 教师页面显示
-    @RequestMapping("/showTeacher")
+    // 班级管理
+    @RequestMapping("/showClass")
     public String showTeacher(Model model, Integer page) throws Exception {
 
-        List<TeacherCustom> list = null;
+        List<ClassCourse> list = null;
         //页码对象
         PagingVO pagingVO = new PagingVO();
         //设置总页数
-        pagingVO.setTotalCount(teacherService.getCountTeacher());
+        pagingVO.setTotalCount(sysuserService.getClassCount());
         if (page == null || page == 0) {
             pagingVO.setToPageNo(1);
-            list = teacherService.findByPaging(1);
+            list = sysuserService.findCSByPaging(1);
         } else {
             pagingVO.setToPageNo(page);
-            list = teacherService.findByPaging(page);
+            list = sysuserService.findCSByPaging(page);
         }
 
         model.addAttribute("teacherList", list);
@@ -174,88 +180,36 @@ public class AdminController {
 
     }
 
-    // 添加教师信息
-    @RequestMapping(value = "/addTeacher", method = {RequestMethod.GET})
-    public String addTeacherUI(Model model) throws Exception {
+    // 排课
+    @RequestMapping(value = "/scheduleCourse", method = {RequestMethod.GET})
+    public String addTeacherUI(Model model,String classname) throws Exception {
 
-        List<College> list = collegeService.finAll();
-
-        model.addAttribute("collegeList", list);
-
-        return "admin/addTeacher";
-    }
-
-    // 添加教师信息处理
-    @RequestMapping(value = "/addTeacher", method = {RequestMethod.POST})
-    public String addTeacher(TeacherCustom teacherCustom, Model model) throws Exception {
-
-        Boolean result = teacherService.save(teacherCustom);
-
-        if (!result) {
-            model.addAttribute("message", "工号重复");
+        //查找改班级下的课程数，如果超过四条将可以排课
+        Boolean flag = courseScService.scheduleCourse(classname);
+        if(flag){
+            return "redirect:/admin/showClass";
+        }else{
+            model.addAttribute("message", "该班级下课程少于4门或者大于20门，无法排课");
             return "error";
         }
-        //添加成功后，也添加到登录表
-        Userlogin userlogin = new Userlogin();
-        userlogin.setUsername(teacherCustom.getUserid().toString());
-        userlogin.setPassword("123");
-        userlogin.setRole(1);
-        userloginService.save(userlogin);
 
-        //重定向
-        return "redirect:/admin/showTeacher";
     }
 
-    // 修改教师信息页面显示
+    // 查看班级下的课程
     @RequestMapping(value = "/editTeacher", method = {RequestMethod.GET})
-    public String editTeacherUI(Integer id, Model model) throws Exception {
-        if (id == null) {
-            return "redirect:/admin/showTeacher";
+    public String editTeacherUI(String classname, Model model) throws Exception {
+        if(null==classname ||"".equals(classname)){
+            Subject subject = SecurityUtils.getSubject();
+            String username = (String) subject.getPrincipal();
+            List<Sysuser> sysusers = sysuserMapper.selectByUsername(username);
+            classname = sysusers.get(0).getClassname();
         }
-        TeacherCustom teacherCustom = teacherService.findById(id);
-        if (teacherCustom == null) {
-            throw new CustomException("未找到该名学生");
-        }
-        List<College> list = collegeService.finAll();
+        List<CourseWeek> courseWeeks = courseClassService.selectByClassname(classname);
 
-        model.addAttribute("collegeList", list);
-        model.addAttribute("teacher", teacherCustom);
+        model.addAttribute("weeks", courseWeeks);
+        model.addAttribute("classname", classname);
 
-
-        return "admin/editTeacher";
-    }
-
-    // 修改教师信息页面处理
-    @RequestMapping(value = "/editTeacher", method = {RequestMethod.POST})
-    public String editTeacher(TeacherCustom teacherCustom) throws Exception {
-
-        teacherService.updateById(teacherCustom.getUserid(), teacherCustom);
-
-        //重定向
-        return "redirect:/admin/showTeacher";
-    }
-
-    //删除教师
-    @RequestMapping("/removeTeacher")
-    public String removeTeacher(Integer id) throws Exception {
-        if (id == null) {
-            //加入没有带教师id就进来的话就返回教师显示页面
-            return "admin/showTeacher";
-        }
-        teacherService.removeById(id);
-        userloginService.removeByName(id.toString());
-
-        return "redirect:/admin/showTeacher";
-    }
-
-    //搜索教师
-    @RequestMapping(value = "selectTeacher", method = {RequestMethod.POST})
-    private String selectTeacher(String findByName, Model model) throws Exception {
-
-        List<TeacherCustom> list = teacherService.findByName(findByName);
-
-        model.addAttribute("teacherList", list);
-        return "admin/showTeacher";
+        return "admin/showWeeks";
     }
 
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<课程操作>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/

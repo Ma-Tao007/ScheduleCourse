@@ -26,7 +26,7 @@ public class UserloginServiceImpl implements UserloginService {
         UserloginExample.Criteria criteria = userloginExample.createCriteria();
         criteria.andUsernameEqualTo(name);
 
-        List<Userlogin> list = new ArrayList<>();
+        List<Userlogin> list = new ArrayList();
 
         try{
             list = userloginMapper.selectByExample(userloginExample);

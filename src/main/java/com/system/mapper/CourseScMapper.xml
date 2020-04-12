@@ -112,5 +112,7 @@
     select * from course_sc where name like #{name}
   </select>
 
-
+  <select id="selectByClassname" resultType="CourseSc">
+   select * from course_sc where classname = #{classname,jdbcType=VARCHAR} ORDER BY RAND()
+  </select>
 </mapper>

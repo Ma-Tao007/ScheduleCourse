@@ -29,4 +29,6 @@ public interface CourseScMapper {
     List<CourseSc> selectByName(@Param("name") String name,@Param("classname")String classname);
 
     List<CourseSc> selectLikeByName(String name);
+
+    List<CourseSc> selectByClassname(String classname);
 }

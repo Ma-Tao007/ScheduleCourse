@@ -1,12 +1,15 @@
 package com.system.controller;
 
 import com.system.exception.CustomException;
+import com.system.mapper.SysuserMapper;
 import com.system.po.*;
+import com.system.service.CourseClassService;
 import com.system.service.CourseService;
 import com.system.service.SelectedCourseService;
 import com.system.service.StudentService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +33,11 @@ public class StudentController {
 
     @Resource(name = "selectedCourseServiceImpl")
     private SelectedCourseService selectedCourseService;
+    @Resource
+    private CourseClassService courseClassService;
+
+    @Autowired
+    private SysuserMapper sysuserMapper;
 
     @RequestMapping(value = "/showCourse")
     public String stuCourseShow(Model model, Integer page) throws Exception {
@@ -52,6 +60,23 @@ public class StudentController {
 
         return "student/showCourse";
     }
+    // 查看班级下的课程
+    @RequestMapping(value = "/editTeacher", method = {RequestMethod.GET})
+    public String editTeacherUI(String classname, Model model) throws Exception {
+        if(null==classname ||"".equals(classname)){
+            Subject subject = SecurityUtils.getSubject();
+            String username = (String) subject.getPrincipal();
+            List<Sysuser> sysusers = sysuserMapper.selectByUsername(username);
+            classname = sysusers.get(0).getClassname();
+        }
+        List<CourseWeek> courseWeeks = courseClassService.selectByClassname(classname);
+
+        model.addAttribute("weeks", courseWeeks);
+        model.addAttribute("classname", classname);
+
+        return "student/showWeeks";
+    }
+
 
     // 选课操作
     @RequestMapping(value = "/stuSelectedCourse")

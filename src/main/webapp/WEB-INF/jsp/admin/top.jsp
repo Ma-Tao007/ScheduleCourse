@@ -15,7 +15,7 @@
             <!--加入导航条标题-->
             <div class="navbar navbar-default" role="navigation">
                 　<div class="navbar-header">
-                　    <a href="##" class="navbar-brand">教务信息查询系统(管理员)</a>
+                　    <a href="##" class="navbar-brand">高校排课系统系统(管理员)</a>
                 　</div>
                 <form action="##" class="navbar-form navbar-right" rol="search">
                     <div class="dropdown">

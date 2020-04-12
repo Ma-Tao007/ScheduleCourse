@@ -1,6 +1,6 @@
 package com.system.service;
 
-import com.system.po.StudentCustom;
+import com.system.po.ClassCourse;
 import com.system.po.Sysuser;
 
 import java.util.List;
@@ -27,4 +27,8 @@ public interface SysuserService{
     Boolean save(Sysuser sysuser);
 
     List<Sysuser> findByName(String findByName);
+
+    int getClassCount();
+
+    List<ClassCourse> findCSByPaging(int i);
 }

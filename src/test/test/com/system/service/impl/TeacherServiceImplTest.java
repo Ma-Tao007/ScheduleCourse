@@ -1,8 +1,5 @@
 package com.system.service.impl;
 
-import com.system.po.Teacher;
-import com.system.po.TeacherCustom;
-import com.system.service.TeacherService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;

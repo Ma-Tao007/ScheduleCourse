@@ -1,6 +1,11 @@
 package com.system.service;
 
 import com.system.po.CourseClass;
+import com.system.po.CourseWeek;
+
+import java.util.List;
+import java.util.Map;
+
 public interface CourseClassService{
 
 
@@ -16,4 +21,5 @@ public interface CourseClassService{
 
     int updateByPrimaryKey(CourseClass record);
 
+    List<CourseWeek> selectByClassname(String classname);
 }

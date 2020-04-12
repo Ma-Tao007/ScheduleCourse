@@ -27,4 +27,6 @@ public interface CourseScService{
     Boolean save(CourseSc courseSc);
 
     List<CourseSc> findByName(String findByName);
+
+    Boolean scheduleCourse(String classname);
 }

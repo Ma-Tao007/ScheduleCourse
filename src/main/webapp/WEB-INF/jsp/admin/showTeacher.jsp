@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>教师信息显示</title>
+	<title>班级信息显示</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- 引入bootstrap -->
@@ -28,48 +28,38 @@
 				<div class="panel panel-default">
 				    <div class="panel-heading">
 						<div class="row">
-					    	<h1 class="col-md-5">教师名单管理</h1>
+					    	<h1 class="col-md-5">班级管理</h1>
 							<form class="bs-example bs-example-form col-md-5" role="form" style="margin: 20px 0 10px 0;" action="${pageContext.request.contextPath}/admin/selectTeacher" id="form1" method="post">
 								<div class="input-group">
-									<input type="text" class="form-control" placeholder="请输入姓名" name="findByName">
+									<input type="text" class="form-control" placeholder="请输入班级" name="findByName">
 									<span class="input-group-addon btn" onclick="document.getElementById('form1').submit" id="sub">搜索</span>
 								</div>
 							</form>
-							<button class="btn btn-default col-md-2" style="margin-top: 20px" onClick="location.href='${pageContext.request.contextPath}/admin/addTeacher'">
-								添加教师信息
-								<sapn class="glyphicon glyphicon-plus"/>
-							</button>
+							<%--<button class="btn btn-default col-md-2" style="margin-top: 20px" onClick="location.href='${pageContext.request.contextPath}/admin/addTeacher'">--%>
+								<%--添加教师信息--%>
+								<%--<sapn class="glyphicon glyphicon-plus"/>--%>
+							<%--</button>--%>
 
 						</div>
 				    </div>
 				    <table class="table table-bordered">
 					        <thead>
 					            <tr>
-									<th>教师编号</th>
-									<th>姓名</th>
-									<th>性别</th>
-									<th>出生年份</th>
-									<th>学历</th>
-									<th>职称</th>
-									<th>入职年份</th>
-									<th>学院</th>
+									<th>班级名称</th>
+									<th>学生人数</th>
+									<th>是否排课</th>
 									<th>操作</th>
 					            </tr>
 					        </thead>
 					        <tbody>
 							<c:forEach  items="${teacherList}" var="item">
 								<tr>
-									<td>${item.userid}</td>
-									<td>${item.username}</td>
-									<td>${item.sex}</td>
-									<td><fmt:formatDate value="${item.birthyear}" dateStyle="medium" /></td>
-									<td>${item.degree}</td>
-									<td>${item.title}</td>
-									<td><fmt:formatDate value="${item.grade}" dateStyle="medium" /></td>
-									<td>${item.collegeName}</td>
+									<td>${item.classname}</td>
+									<td>${item.studentnum}</td>
+									<td>${item.isSchedule}</td>
 									<td>
-										<button class="btn btn-default btn-xs btn-info" onClick="location.href='${pageContext.request.contextPath}/admin/editTeacher?id=${item.userid}'">修改</button>
-										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="location.href='${pageContext.request.contextPath}/admin/removeTeacher?id=${item.userid}'">删除</button>
+										<button class="btn btn-default btn-xs btn-info" onClick="show('${item.isSchedule}','${item.classname}')">查看课程</button>
+										<button class="btn btn-default btn-xs btn-danger btn-primary" onClick="schedule('${item.isSchedule}','${item.classname}')">自动排课</button>
 										<!--弹出框-->
 									</td>
 								</tr>
@@ -122,7 +112,24 @@
 				$(".pagination li:nth-child(1)").addClass("disabled")
 			};
         </c:if>
+		function schedule(isSchelude,classname){
+		   if(isSchelude=='已排课'){
+		       var msg = '改班级已经排过课了，是否重新排课？'
+               if(confirm(msg)==true){
 
+			   }else{
+                   return false
+			   }
+		   }
+		   location.href='/admin/scheduleCourse?classname='+classname;
+		}
+		function show(isSchelude,classname){
+		    if(isSchelude=='未排课'){
+				alert("该班级没有排课，无法查看")
+			}else{
+                location.href='/admin/editTeacher?classname='+classname;
+			}
+		}
         function confirmd() {
             var msg = "您真的确定要删除吗？！";
             if (confirm(msg)==true){

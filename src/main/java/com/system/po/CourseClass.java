@@ -31,6 +31,12 @@ public class CourseClass {
         this.courseids = courseids;
     }
 
+    public CourseClass(Integer id, String classname, String courseids) {
+        this.id = id;
+        this.classname = classname;
+        this.courseids = courseids;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

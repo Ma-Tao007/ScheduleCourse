@@ -1,13 +1,10 @@
 package com.system.service.impl;
 
-import com.system.po.PagingVO;
-import com.system.po.Student;
-import com.system.po.StudentCustom;
+import com.system.po.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import com.system.po.Sysuser;
 import com.system.mapper.SysuserMapper;
 import com.system.service.SysuserService;
 
@@ -82,6 +79,17 @@ public class SysuserServiceImpl implements SysuserService {
     }
 
 
+    @Override
+    public List<ClassCourse> findCSByPaging(int toPageNo) {
 
+            PagingVO pagingVO = new PagingVO();
+            pagingVO.setToPageNo(toPageNo);
 
+        return sysuserMapper.findCSByPaging(pagingVO);
+    }
+
+    @Override
+    public int getClassCount() {
+        return sysuserMapper.getClassCount().size();
+    }
 }

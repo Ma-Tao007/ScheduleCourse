@@ -109,10 +109,21 @@
     select count(*) from sysuser
   </select>
 
+  <select id="getClassCount" resultType="Sysuser">
+    select *
+from sysuser s GROUP BY s.classname
+  </select>
+
 
   <select id="findByPaging" parameterType="PagingVO" resultType="Sysuser">
     select *
     from sysuser
+    limit #{toPageNo}, #{pageSize}
+  </select>
+
+  <select id="findCSByPaging" parameterType="PagingVO" resultType="ClassCourse">
+    select s.classname,count(s.id) studentnum,case when (select GROUP_CONCAT(id) from course_class where classname=s.classname) is null  then '未排课' else '已排课' end isSchedule
+    from sysuser s GROUP BY s.classname
     limit #{toPageNo}, #{pageSize}
   </select>
 

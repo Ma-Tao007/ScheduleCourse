@@ -1,5 +1,6 @@
 package com.system.mapper;
 
+import com.system.po.ClassCourse;
 import com.system.po.PagingVO;
 import com.system.po.Sysuser;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +28,8 @@ public interface SysuserMapper {
     List<Sysuser> selectByUsername(String username);
 
     List<Sysuser> selectLikeByUsername(String findname);
+
+    List<Sysuser> getClassCount();
+
+    List<ClassCourse> findCSByPaging(PagingVO pagingVO);
 }
