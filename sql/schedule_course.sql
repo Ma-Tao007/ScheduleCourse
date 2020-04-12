@@ -11,7 +11,7 @@
  Target Server Version : 50540
  File Encoding         : 65001
 
- Date: 10/04/2020 20:48:07
+ Date: 12/04/2020 23:03:04
 */
 
 SET NAMES utf8mb4;
@@ -74,7 +74,16 @@ CREATE TABLE `course_class`  (
   `classname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `courseids` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of course_class
+-- ----------------------------
+INSERT INTO `course_class` VALUES (51, '软件一班', 'jq基础,java基础,css基础,js基础');
+INSERT INTO `course_class` VALUES (52, '软件一班', 'js基础,javaweb基础,java基础,jq基础');
+INSERT INTO `course_class` VALUES (53, '软件一班', 'css基础,java基础,javaweb基础,jq基础');
+INSERT INTO `course_class` VALUES (54, '软件一班', 'js基础,javaweb基础,css基础,jq基础');
+INSERT INTO `course_class` VALUES (55, '软件一班', 'js基础,css基础,java基础,javaweb基础');
 
 -- ----------------------------
 -- Table structure for course_sc
@@ -84,10 +93,19 @@ CREATE TABLE `course_sc`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `classname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `coursetime` varchar(0) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `coursetime` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `credit` int(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of course_sc
+-- ----------------------------
+INSERT INTO `course_sc` VALUES (1, 'java基础', '软件一班', '10周', 3);
+INSERT INTO `course_sc` VALUES (2, 'javaweb基础', '软件一班', '18周', 2);
+INSERT INTO `course_sc` VALUES (3, 'js基础', '软件一班', '20周', 4);
+INSERT INTO `course_sc` VALUES (4, 'jq基础', '软件一班', '10周', 23);
+INSERT INTO `course_sc` VALUES (5, 'css基础', '软件一班', '14', 5);
 
 -- ----------------------------
 -- Table structure for role
@@ -170,7 +188,13 @@ CREATE TABLE `sysuser`  (
   `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `classname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of sysuser
+-- ----------------------------
+INSERT INTO `sysuser` VALUES (1, 'XH001', '小明', '男', '18745781245', '软件一班');
+INSERT INTO `sysuser` VALUES (2, 'XH002', '小王', '男', '15423568954', '软件一班');
 
 -- ----------------------------
 -- Table structure for teacher
@@ -209,7 +233,7 @@ CREATE TABLE `userlogin`  (
   PRIMARY KEY (`userID`) USING BTREE,
   INDEX `role`(`role`) USING BTREE,
   CONSTRAINT `userlogin_ibfk_1` FOREIGN KEY (`role`) REFERENCES `role` (`roleID`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of userlogin
@@ -225,5 +249,7 @@ INSERT INTO `userlogin` VALUES (14, '1001', '123', 1);
 INSERT INTO `userlogin` VALUES (15, '1002', '123', 1);
 INSERT INTO `userlogin` VALUES (16, '1003', '123', 1);
 INSERT INTO `userlogin` VALUES (19, 'user', '123', 2);
+INSERT INTO `userlogin` VALUES (20, 'XH001', '123', 2);
+INSERT INTO `userlogin` VALUES (21, 'XH002', '123', 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
